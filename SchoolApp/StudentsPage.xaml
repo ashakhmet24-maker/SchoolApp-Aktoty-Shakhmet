@@ -4,20 +4,43 @@
              x:Class="SchoolApp.StudentsPage"
              Title="Students">
 
-    <VerticalStackLayout Padding="20" Spacing="10">
-        <Label Text="Students" FontSize="24" />
+	<VerticalStackLayout Padding="20" Spacing="10">
 
-        <CollectionView x:Name="StudentsList"
-                        SelectionMode="Single"
+		<Label Text="Students" FontSize="24" />
+
+		<!-- ввод имени -->
+		<HorizontalStackLayout Spacing="10">
+
+			<Entry Placeholder="New student name"
+                   Text="{Binding NewName}"
+                   WidthRequest="220" />
+
+			<Button Text="Add"
+                    Clicked="OnAddClicked" />
+
+		</HorizontalStackLayout>
+
+		<!-- список студентов -->
+		<CollectionView ItemsSource="{Binding Students}"
+                        x:Name="StudentsList"
                         SelectionChanged="OnStudentSelected">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Label Text="{Binding .}"
-                           FontSize="18"
-                           Padding="12,8" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<Grid Padding="10" ColumnDefinitions="*,Auto">
+
+						<Label Text="{Binding Name}"
+                               FontSize="18" />
+
+						<Label Text="{Binding Gpa, StringFormat='GPA: {0:F2}'}"
+                               Grid.Column="1" />
+
+					</Grid>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+
+		</CollectionView>
+
+	</VerticalStackLayout>
 
 </ContentPage>

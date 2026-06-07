@@ -24,6 +24,7 @@ public class Person : INotifyPropertyChanged
         {
             _city = value;
             PropertyChanged?.Invoke(this,
+
                 new PropertyChangedEventArgs(nameof(City)));
         }
     }

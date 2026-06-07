@@ -1,30 +1,33 @@
-﻿namespace SchoolApp;
+﻿using SchoolApp.Models;
+using SchoolApp.ViewModels;
+
+namespace SchoolApp;
 
 public partial class StudentsPage : ContentPage
 {
+    private readonly StudentsViewModel _vm;
+
     public StudentsPage()
     {
         InitializeComponent();
 
-        // Mock data. We replace this with the database in L16.
-        StudentsList.ItemsSource = new[]
-        {
-            "Aida Tulegenova",
-            "Bekzat Sarsenov",
-            "Dana Iskakova",
-            "Erlan Nurpeisov",
-            "Madina Akhmetova"
-        };
+        _vm = new StudentsViewModel();
+        BindingContext = _vm;
+    }
+
+    private void OnAddClicked(object sender, EventArgs e)
+    {
+        _vm.AddStudent();
     }
 
     private async void OnStudentSelected(object sender, SelectionChangedEventArgs e)
     {
-        if (e.CurrentSelection.FirstOrDefault() is not string name) return;
+        if (e.CurrentSelection.FirstOrDefault() is not Student student)
+            return;
 
         await Shell.Current.GoToAsync(
-            $"{nameof(StudentDetailPage)}?name={Uri.EscapeDataString(name)}");
+            $"{nameof(StudentDetailPage)}?name={student.Name}");
 
-        // Clear selection so the same item can be tapped again after returning
         StudentsList.SelectedItem = null;
     }
 }
